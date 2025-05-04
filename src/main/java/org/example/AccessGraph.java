@@ -32,6 +32,15 @@ public class AccessGraph {
             System.err.println("Ошибка записи access.json: " + e.getMessage());
         }
     }
+    public void writeFlow(Map<String, Set<String>> flow) {
+        try {
+            objectMapper.writerWithDefaultPrettyPrinter()
+                    .writeValue(new File("./system/flow.json"), flow);
+        } catch (IOException e) {
+            System.err.println("Ошибка записи flow.json: " + e.getMessage());
+        }
+    }
+
 
     public void addEdge(String from, String to, String right) {
         Map<String, Map<String, Set<String>>> graph = read();

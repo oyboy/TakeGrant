@@ -1,0 +1,20 @@
+{
+  "carol" : {
+    "dave" : [ "g" ]
+  },
+  "dave" : {
+    "dave" : [ "g" ],
+    "alice" : [ "x" ]
+  },
+  "bob" : {
+    "frank" : [ "r" ],
+    "bob" : [ "t", "g" ]
+  },
+  "eve" : {
+    "bob" : [ "g" ]
+  },
+  "alice" : {
+    "frank" : [ "r" ],
+    "bob" : [ "t", "g" ]
+  }
+}

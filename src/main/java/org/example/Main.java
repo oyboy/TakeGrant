@@ -11,6 +11,8 @@ import java.util.Scanner;
         GrantCheckCommand.class,
         TakeCheckCommand.class,
         RemoveEdgeCommand.class,
+        ClosureCommand.class,
+        VisualizeCommand.class
 })
 public class Main implements Runnable {
     @Override
