@@ -34,6 +34,7 @@ public class ClosureCommand implements Runnable {
     private Map<String, Map<String, Set<String>>> buildClosure(Map<String, Map<String, Set<String>>> graph) {
         Map<String, Map<String, Set<String>>> closure = deepCopy(graph);
         boolean changed;
+
         do {
             changed = false;
             List<String> fromList = new ArrayList<>(closure.keySet());
@@ -42,21 +43,25 @@ public class ClosureCommand implements Runnable {
                 List<String> viaList = new ArrayList<>(closure.getOrDefault(from, Map.of()).keySet());
 
                 for (String via : viaList) {
-                    Set<String> viaRights = closure.get(from).get(via);
+                    Set<String> viaRights = closure.getOrDefault(from, Map.of()).getOrDefault(via, Set.of());
                     if (viaRights.contains("t")) {
-                        List<String> targetList = new ArrayList<>(closure.getOrDefault(via, Map.of()).keySet());
-                        for (String target : targetList) {
-                            for (String right : closure.get(via).get(target)) {
+                        Map<String, Set<String>> viaEdges = closure.getOrDefault(via, Map.of());
+                        for (String target : viaEdges.keySet()) {
+                            if (from.equals(target)) continue;
+
+                            Set<String> rights = viaEdges.get(target);
+                            for (String right : rights) {
                                 changed |= addRight(closure, from, target, right);
                             }
                         }
                     }
-
                     if (viaRights.contains("g")) {
-                        List<String> targetList = new ArrayList<>(closure.keySet());
-                        for (String target : targetList) {
-                            Set<String> rightsFromS = closure.getOrDefault(from, Map.of()).getOrDefault(target, Set.of());
-                            for (String right : rightsFromS) {
+                        Map<String, Set<String>> fromEdges = closure.getOrDefault(from, Map.of());
+                        for (String target : fromEdges.keySet()) {
+                            if (via.equals(target)) continue;
+
+                            Set<String> rights = fromEdges.get(target);
+                            for (String right : rights) {
                                 changed |= addRight(closure, via, target, right);
                             }
                         }
@@ -64,8 +69,11 @@ public class ClosureCommand implements Runnable {
                 }
             }
         } while (changed);
+
         return closure;
     }
+
+
     private Map<String, Set<String>> buildFlowClosure(Map<String, Map<String, Set<String>>> graph) {
         Map<String, Set<String>> flow = new HashMap<>();
 

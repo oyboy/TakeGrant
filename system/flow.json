@@ -1,7 +1,4 @@
 {
-  "carol" : [ "dave" ],
-  "dave" : [ ],
-  "bob" : [ ],
-  "eve" : [ "bob" ],
-  "alice" : [ "bob" ]
+  "s" : [ "x", "z" ],
+  "x" : [ "z" ]
 }
